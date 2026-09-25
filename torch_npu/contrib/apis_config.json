@@ -46,5 +46,12 @@
       "accelerate.test_utils.scripts.external_deps.test_peak_memory_usage.TorchTracemalloc.__exit__": "method",
       "accelerate.state.PartialState._prepare_backend": "method"
     }
+  },
+  "liger_kernel": {
+    "version": "0.6.5",
+    "apis": {
+      "liger_kernel.utils.infer_device": "function",
+      "liger_kernel.utils.infer_comm_backend": "function"
+    }
   }
 }
