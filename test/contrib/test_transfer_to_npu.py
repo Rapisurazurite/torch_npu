@@ -232,9 +232,12 @@ class TestTransferToNpu(TestCase):
     def test_wrapper_function(self):
         @transfer_to_npu._wrapper_libraries_func
         def test_function():
-            return torch.cuda.is_available()
+            return torch.cuda.is_available(), torch.distributed.is_nccl_available()
 
-        self.assertFalse(test_function())
+        self.assertEqual(
+            test_function(),
+            (transfer_to_npu.is_available(), transfer_to_npu.is_nccl_available())
+        )
 
     def test_replace_cuda_to_npu_in_dict(self):
         input_dict = {

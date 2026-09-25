@@ -49,6 +49,7 @@ torch_cuda_fn_white_list = [
 torch_distributed_fn_white_list = ['__init__']
 device_kwargs_list = ['device', 'device_type', 'map_location', 'device_id']
 is_available = torch.cuda.is_available
+is_nccl_available = torch.distributed.is_nccl_available
 cur_path = os.path.dirname(os.path.realpath(__file__))
 config_path = os.path.join(cur_path, 'apis_config.json')
 
@@ -148,9 +149,12 @@ def _wrapper_libraries_func(fn):
     @wraps(fn)
     def decorated(*args, **kwargs):
         patched_is_available = torch.cuda.is_available
+        patched_is_nccl_available = torch.distributed.is_nccl_available
         torch.cuda.is_available = is_available
+        torch.distributed.is_nccl_available = is_nccl_available
         result = fn(*args, **kwargs)
         torch.cuda.is_available = patched_is_available
+        torch.distributed.is_nccl_available = patched_is_nccl_available
         return result
 
     return decorated
